@@ -1,34 +1,65 @@
-import {useEffect, useState} from "react";
+import {Component, useEffect, useState} from "react";
+import ListElement from "./ListElement";
 
-function EntitiesList() {
-    const [entities, setEntities] = useState([]);
+class EntitiesList extends Component {
+    intervalID;
+    state = {
+        data: {},
+        fetch_url: this.props.fetch_url,
+    }
 
-    useEffect(() => {
-        fetch("http://127.0.0.1:8668/output").then(
-            response => {
-                if (response.ok) {
-                    return response.json();
+    constructor(props) {
+        super(props)
+        this.handler = this.handler.bind(this)
+    }
+
+    handler(new_url) {
+        console.log(new_url)
+        this.setState(
+            {
+                data: this.state.data,
+                fetch_url: new_url,
+            })
+
+        fetch(this.state.fetch_url)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({data: data})
+            });
+    }
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.intervalID);
+    }
+
+    getData = () => {
+        fetch(this.state.fetch_url)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({data: data});
+                this.intervalID = setTimeout(this.getData.bind(this), 5000);
+            });
+    }
+
+    render() {
+        const url = this.state.fetch_url
+        let handler = this.handler
+        return (
+            <div>
+                {this.state.data.directories ?
+                    this.state.data.directories.map(
+                        function (value, index) {
+                            return <ListElement key={index} value={value} fetch_url={url}
+                                                handler={handler}/>;
+                        }) : "Loading..."
                 }
-                throw response;
-            }
-        ).then(data => {
-            console.log(data)
-            setEntities(data);
-        })
-    }, [])
-
-
-    return (
-        <div>
-            {entities.directories ?
-                entities.directories.map(
-                    function (value, index) {
-                        console.log(value, index)
-                        return <ul key={index}>{index}. {value} </ul>;
-                    }) : "Loading..."
-            }
-        </div>
-    );
+            </div>
+        );
+    }
 }
 
 export default EntitiesList;

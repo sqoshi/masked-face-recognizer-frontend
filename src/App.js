@@ -6,9 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
       <p>Yo</p>
-          <EntitiesList>
-
-          </EntitiesList>
+          <EntitiesList fetch_url="http://127.0.0.1:8668/output"/>
       </header>
     </div>
   );
