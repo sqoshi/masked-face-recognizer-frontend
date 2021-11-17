@@ -3,12 +3,29 @@ import ListElement from "./ListElement";
 import AnalysisView from "../AnalysisView/AnalysisView";
 
 const listStyles = {
-    width: "60%",
+    width: "90%",
     backgroundColor: "grey",
     padding: "10px",
     borderRadius: "10px",
     borderColor: "#00f"
 };
+
+const backBtnStyle = {
+    position: "fixed",
+    top: "20px",
+    right: "20px",
+    backgroundColor: "#04AA6D",
+    border: "none",
+    color: "white",
+    padding: "20px",
+    textAlign: "center",
+    textDecoration: "none",
+    display: "inline-block",
+    fontSize: "16px",
+    margin: "4px 2px",
+    borderRadius: "12px"
+};
+
 
 function removeLastChild(link) {
     if (link.endsWith("/")) {
@@ -81,7 +98,7 @@ class EntitiesList extends Component {
         let back = this.back
         return (
             <div style={listStyles}>
-                <button onClick={back}>BACK</button>
+                <button onClick={back} style={backBtnStyle}>BACK</button>
                 {this.state.data.directories ?
                     this.state.data.directories.map(
                         function (value, index) {
