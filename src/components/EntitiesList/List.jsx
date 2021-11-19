@@ -23,7 +23,8 @@ const backBtnStyle = {
     display: "inline-block",
     fontSize: "16px",
     margin: "4px 2px",
-    borderRadius: "12px"
+    borderRadius: "12px",
+    cursor:"pointer"
 };
 
 

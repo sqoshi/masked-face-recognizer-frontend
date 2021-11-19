@@ -1,30 +1,38 @@
 import EnhancedTable from "../ResultsTable/ResultsTable";
 import Collapsible from "react-collapsible";
 import ReactJson from "react-json-view";
+import {BsChevronDown} from "react-icons/bs";
+import "./analysisview_styles.css"
 
 const {Component} = require("react");
 
-const collapsibleStyle = {
-    padding: "10px",
-    margin: "10px",
-    borderRadius: "10px",
-    // backgroundColor: "black",
-    cursor: "pointer",
-};
+function upgradeName(name) {
+    return <div style={{display: "flex", flexDirection: "row"}}>
+        <div style={{flex:1}}>{name}</div>
+        <div style={{right:0}}><BsChevronDown/></div>
+    </div>
+}
 
 function createCollapsible(name, content) {
-    return <div style={collapsibleStyle}>
-        <Collapsible trigger={name}>
-            <p style={{
-                fontSize: "15px"
-            }}>{content}</p>
+    return <div className={"collapsible-element"}>
+
+        <Collapsible trigger={upgradeName(name)}>
+            <p style={{fontSize: "15px"}}>{content}</p>
         </Collapsible>
+
     </div>
 }
 
 function isEmpty(obj) {
     return Object.keys(obj).length === 0;
 }
+
+function getColor(percent) {
+    let r = percent < 50 ? 255 : Math.floor(255 - (percent * 2 - 100) * 255 / 100),
+        g = percent > 50 ? 255 : Math.floor((percent * 2) * 255 / 100);
+    return 'rgb(' + r + ',' + g + ',0)';
+}
+
 
 function computeAccuracy(data) {
     let result = {
@@ -40,8 +48,6 @@ function computeAccuracy(data) {
             perfect_number += x.perfect
             top5_number += x.top5
         }
-        console.log("Perfect matches " + perfect_number + " of " + all_tests_number)
-        console.log("top5 matches " + top5_number + " of " + all_tests_number)
         result.perfect = (perfect_number / all_tests_number * 100).toFixed(3)
         result.top5 = ((top5_number + perfect_number) / all_tests_number * 100).toFixed(3)
     }
@@ -105,8 +111,8 @@ class AnalysisView extends Component {
             <div style={{top: "10px"}}>
                 <h1>Analysis Dashboard</h1>
                 <div>
-                    <p>Perfect accuracy: {acc.perfect}</p>
-                    <p>Top5 accuracy: {acc.top5}</p>
+                    <p style={{color: getColor(acc.perfect)}}>Perfect accuracy: {acc.perfect}</p>
+                    <p style={{color: getColor(acc.top5)}}>Top5 accuracy: {acc.top5}</p>
                 </div>
                 {createCollapsible("Analysis Details", <ReactJson src={this.state.analysisDetails}/>)}
                 {createCollapsible("Model Details", <ReactJson src={this.state.modelDetails}/>)}

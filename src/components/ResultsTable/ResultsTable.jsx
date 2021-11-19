@@ -76,7 +76,6 @@ export default function EnhancedTable(props) {
                     <Table
                         sx={{minWidth: 750}}
                         aria-labelledby="tableTitle"
-                        // size={dense ? 'small' : 'medium'}
                         size={'small'}
                     >
                         <EnhancedTableHead

@@ -1,0 +1,10 @@
+.list-element {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: #282c34;
+    cursor: pointer;
+}
+.list-element:hover {
+    background-color: #54545899;
+}
