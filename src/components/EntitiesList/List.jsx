@@ -1,6 +1,7 @@
 import {Component} from "react";
 import ListElement from "./ListElement";
 import AnalysisView from "../AnalysisView/AnalysisView";
+import ExperimentSummary from "../ExperimentSummary/ExperimentSummary";
 
 const listStyles = {
     width: "90%",
@@ -24,7 +25,7 @@ const backBtnStyle = {
     fontSize: "16px",
     margin: "4px 2px",
     borderRadius: "12px",
-    cursor:"pointer"
+    cursor: "pointer"
 };
 
 
@@ -111,9 +112,13 @@ class EntitiesList extends Component {
                 {this.state.data.content_type === "analysis" ?
                     <AnalysisView fetch_url={url}/> : ""
                 }
+                {this.state.data.content_type === "experiment" ?
+                    <ExperimentSummary experiment_url={url}/> : ""
+                }
             </div>
         );
     }
+
 }
 
 export default EntitiesList;

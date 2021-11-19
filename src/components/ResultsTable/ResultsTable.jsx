@@ -104,7 +104,7 @@ export default function EnhancedTable(props) {
                                                 component="th"
                                                 id={labelId}
                                                 scope="row"
-                                                padding="none"
+                                                padding="normal"
                                             >
                                                 {row.index}
                                             </TableCell>
