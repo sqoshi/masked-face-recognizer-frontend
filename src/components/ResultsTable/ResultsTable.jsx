@@ -10,6 +10,11 @@ import EnhancedTableHead from "./ResultsTableHeader";
 import {getComparator, stableSort} from "./Sorting";
 
 
+/**
+ * Creates table header depending on tableData.
+ * @param tableData
+ * @returns {*[]}
+ */
 function createHeadCells(tableData) {
     if (Object.keys(tableData).length === 0) {
         return []
@@ -27,6 +32,9 @@ function createHeadCells(tableData) {
 
 }
 
+/**
+ * Gouges rows data from table json object data.
+ */
 function getRows(tableData){
     if (Object.keys(tableData).length === 0) {
         return []
@@ -35,18 +43,30 @@ function getRows(tableData){
 
 }
 
-
+/**
+ * Table contains classes with classifications statistics.
+ * Each row contains one class.
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function EnhancedTable(props) {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('perfect');
     const [selected, setSelected] = React.useState([]);
 
+    /**
+     * Sorting rows in table by given property depending on event.
+     */
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
 
+    /**
+     * Allow to underline clicked rows.
+     */
     const handleClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
         let newSelected = [];

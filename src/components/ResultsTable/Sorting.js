@@ -1,4 +1,11 @@
-
+/**
+ * Descending comparator.
+ * Add minus to achieve opposite comparator.
+ * @param a
+ * @param b
+ * @param orderBy
+ * @returns {number}
+ */
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -9,12 +16,24 @@ function descendingComparator(a, b, orderBy) {
     return 0;
 }
 
+/**
+ * Creates comparator depending on given order.
+ * @param order
+ * @param orderBy
+ * @returns {{(*=, *=): number, (*=, *=): number}}
+ */
 export function getComparator(order, orderBy) {
     return order === 'desc'
         ? (a, b) => descendingComparator(a, b, orderBy)
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
+/**
+ * Performs stable sort accordingly with chosen comparator.
+ * @param array
+ * @param comparator
+ * @returns {*}
+ */
 export function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {

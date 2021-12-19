@@ -28,7 +28,11 @@ const backBtnStyle = {
     cursor: "pointer"
 };
 
-
+/**
+ * Removes last child from url.
+ * @param link
+ * @returns {*}
+ */
 function removeLastChild(link) {
     if (link.endsWith("/")) {
         link = link.slice(0, -1);
@@ -38,6 +42,9 @@ function removeLastChild(link) {
     return parts.join("/")
 }
 
+/***
+ * List containing clickable entities that decides from which endpoint data is downloaded via API.
+ */
 class EntitiesList extends Component {
     intervalID;
     state = {

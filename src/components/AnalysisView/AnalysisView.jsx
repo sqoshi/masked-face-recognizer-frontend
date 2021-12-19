@@ -6,13 +6,24 @@ import "./analysisview_styles.css"
 
 const {Component} = require("react");
 
+/**
+ * Name beautifier.
+ * @param name
+ * @returns {JSX.Element}
+ */
 function upgradeName(name) {
     return <div style={{display: "flex", flexDirection: "row"}}>
-        <div style={{flex:1}}>{name}</div>
-        <div style={{right:0}}><BsChevronDown/></div>
+        <div style={{flex: 1}}>{name}</div>
+        <div style={{right: 0}}><BsChevronDown/></div>
     </div>
 }
 
+/**
+ * Creates collapside element
+ * @param name
+ * @param content
+ * @returns {JSX.Element}
+ */
 function createCollapsible(name, content) {
     return <div className={"collapsible-element"}>
 
@@ -23,17 +34,31 @@ function createCollapsible(name, content) {
     </div>
 }
 
+/**
+ * Checks if obj is an empty instance
+ * @param obj
+ * @returns {boolean}
+ */
 function isEmpty(obj) {
     return Object.keys(obj).length === 0;
 }
 
+/***
+ * Choosing numerical value according to given percentage from red to green.
+ * @param percent
+ * @returns {string}
+ */
 function getColor(percent) {
     let r = percent < 50 ? 255 : Math.floor(255 - (percent * 2 - 100) * 255 / 100),
         g = percent > 50 ? 255 : Math.floor((percent * 2) * 255 / 100);
     return 'rgb(' + r + ',' + g + ',0)';
 }
 
-
+/**
+ * Counts classifications and computes accuracies of model.
+ * @param data
+ * @returns {{perfect: string, top5: string}}
+ */
 function computeAccuracy(data) {
     let result = {
         "perfect": "No data.",
@@ -54,6 +79,10 @@ function computeAccuracy(data) {
     return result
 }
 
+/**
+ * Shows model configuration, dataset reading limitation and modifications,
+ * masking strategy and statistics achieved in evaluation stage.
+ */
 class AnalysisView extends Component {
     state = {
         tableData: {},

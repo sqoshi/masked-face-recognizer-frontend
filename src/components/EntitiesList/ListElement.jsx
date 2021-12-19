@@ -1,6 +1,9 @@
 import {Component} from "react";
 import "./list_styles.css"
 
+/**
+ * List element representation maybe an analysis or experiment or dataset name.
+ */
 class ListElement extends Component {
     render() {
         return (

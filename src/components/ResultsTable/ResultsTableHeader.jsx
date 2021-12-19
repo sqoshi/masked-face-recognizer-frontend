@@ -7,6 +7,12 @@ import {visuallyHidden} from "@mui/utils";
 import PropTypes from "prop-types";
 import * as React from "react";
 
+/***
+ * Table header component.
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function EnhancedTableHead(props) {
     const {order, orderBy, onRequestSort, headCells} = props;
 
