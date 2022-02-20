@@ -1,30 +1,37 @@
 import {Component} from "react";
 import Collapsible from "react-collapsible";
+import ConfigurationInput from "../ConfigurationInput/ConfigurationInput";
+import {Card, CardActionArea, CardContent} from "@mui/material";
 
 
 function createCollapsibleHeader(text) {
-    return <p style={{cursor: "pointer", backgroundColor: "green", borderRadius: "10px"}}>
+    return <CardActionArea style={{cursor: "pointer", backgroundColor: "red", borderRadius: "10px", padding: "10px"}}>
         {text}
-    </p>
+    </CardActionArea>
+}
+
+function dictKeyToText(text) {
+    return (text.charAt(0).toUpperCase() + text.slice(1)).replaceAll("_", " ")
+}
+
+function textToDictKey(text) {
+    return (text.charAt(0).toLowerCase() + text.slice(1)).replaceAll(" ", "_")
 }
 
 function generateInputs(dictionary, header) {
-    return <div>
-        <p>{header}</p>
-        <ul>
+    return <Card variant="elevation" style={{padding: "10px", margin: "10px"}}>
+        <p style={{display: "flex", justifyContent: "center"}}>{dictKeyToText(header)}</p>
+        <CardContent>
             {Object.keys(dictionary).map((item) => {
                 if (typeof dictionary[item] != "object")
-                    return <li>
-                        <label>{item}:
-                            <input value={dictionary[item]}/>
-                        </label>
-                    </li>
+                    return <ConfigurationInput label={dictKeyToText(item)} defaultValue={dictionary[item]}/>
                 else {
                     return generateInputs(dictionary[item], item)
                 }
             })}
-        </ul>
-    </div>
+        </CardContent>
+    </Card>
+
 }
 
 class ConfigurationView extends Component {
@@ -45,6 +52,13 @@ class ConfigurationView extends Component {
             "equal_piqs": true,
             "identities_limit": 40,
             "landmarks_detection": false,
+            "svm_config": {
+                "C": 1.0,
+                "kernel": "linear",
+                "degree": 5,
+                "probability": true,
+                "random_state": true,
+            },
             "train_set_mods": {
                 "mask_ratio": 0.6,
                 "inplace": false,
@@ -54,35 +68,37 @@ class ConfigurationView extends Component {
                 "mask_ratio": 0.6,
                 "inplace": false,
                 "mask": 0
-            },
-            "svm_config": {
-                "C": 1.0,
-                "kernel": "linear",
-                "degree": 5,
-                "probability": true,
-                "random_state": true,
             }
 
         }
     }
 
 
-    createCollapsible(configuration) {
+    createCollapsible(configuration, index) {
         return <Collapsible
-            key={this.state.configurationList.length}
-            trigger={createCollapsibleHeader(`Configuration #` + this.state.configurationList.length)}
+            key={index}
+            trigger={createCollapsibleHeader(`Configuration #` + index)}
         >
-            {generateInputs(configuration, "Default config")}
+            <Card variant="outlined">
+                {generateInputs(configuration, "Default config")}
+            </Card>
         </Collapsible>
+    }
+
+    sendLearningRequest() {
+        console.log("Not implemented")
     }
 
 
     render() {
         return (
-            <div style={{top: "10px"}}>
-                <button onClick={this.addCollapsibleOnBtnClick} style={{padding: "30px"}}>Add input</button>
-                {this.state.configurationList.map((item) => {
-                    return this.createCollapsible(item)
+            <div style={{width: "50%", top: "10px", marginBottom: "10%"}}>
+                <button onClick={this.addCollapsibleOnBtnClick} style={{padding: "30px", margin: "30px"}}>Add input
+                </button>
+                <button onClick={this.sendLearningRequest} style={{padding: "30px", margin: "30px"}}>Train Models
+                </button>
+                {this.state.configurationList.map((value, index) => {
+                    return this.createCollapsible(value, index)
                 })}
             </div>
         )
